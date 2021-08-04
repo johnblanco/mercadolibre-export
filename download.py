@@ -3,7 +3,7 @@ import pandas as pd
 import requests
 from tqdm import tqdm
 
-token = '[TOKEN_OAUTH]' #reemplazar por tu token oauth que se genera al hacer el request a https://api.mercadolibre.com/oauth/token
+token = 'APP_USR-6533178376326833-080420-4f8813003c1bc1afd8759bdb66cee531-78104556' #reemplazar por tu token oauth que se genera al hacer el request a https://api.mercadolibre.com/oauth/token
 
 
 def category_results(category, offset):
@@ -12,7 +12,8 @@ def category_results(category, offset):
     }
 
     #MLU es el sitio de Uruguay
-    url = 'https://api.mercadolibre.com/sites/MLU/search?category={}&offset={}'.format(category, offset)
+    #ITEM_CONDITION = 2230581 -> Usados solamente
+    url = 'https://api.mercadolibre.com/sites/MLU/search?category={}&offset={}&ITEM_CONDITION=2230581'.format(category, offset)
     response = requests.get(url, headers=headers)
     return response.json()
 
