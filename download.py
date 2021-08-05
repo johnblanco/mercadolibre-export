@@ -1,3 +1,4 @@
+import json
 import math
 import pandas as pd
 import requests
@@ -64,12 +65,11 @@ def map_car(result):
     return car
 
 
-def main():
+def main(token):
     page_size = 50
-    token = 'APP_USR-6533178376326833-080420-4f8813003c1bc1afd8759bdb66cee531-78104556'  # reemplazar por tu token oauth que se genera al hacer el request a https://api.mercadolibre.com/oauth/token
     response = category_results(token, 'MLU1744', 0)  # autos y camionetas
 
-    response['paging']['total'] = 10000  # -----> cantidad de autos que pienso descargar <<<<<<
+    response['paging']['total'] = 100  # -----> cantidad de autos que pienso descargar <<<<<<
 
     total_cars = response['paging']['total']
 
@@ -78,7 +78,7 @@ def main():
     page_count = math.ceil(total_cars / page_size)
     cars = []
     for i in tqdm(range(page_count)):
-        response = category_results('MLU1744', i * page_size)
+        response = category_results(token, 'MLU1744', i * page_size)
 
         page_cars = list(map(lambda x: map_car(x), response['results']))
         cars += page_cars
@@ -94,8 +94,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    secrets = json.loads(open('secrets.json', 'r').read())
+    access_token = secrets['access_token']
+    main(access_token)
 
-# TODO hacer un script que haga el curl y deje en disco el APP_USR-...
-# TODO este script lee ese archivo y manda
 # TODO convertir a dolares el renault megane: https://auto.mercadolibre.com.uy/MLU-480294333-renault-megane-turbo-diesel-_JM
