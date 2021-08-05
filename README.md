@@ -10,4 +10,6 @@ https://auth.mercadolibre.com.ar/authorization?response_type=code&client_id=[cli
 
 2. pones el code en secrets.json
 
-3. ya podes correr download.py
+3. ejecutas generate_access_token.py
+
+4. ya podes correr download.py
