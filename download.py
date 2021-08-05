@@ -3,17 +3,16 @@ import pandas as pd
 import requests
 from tqdm import tqdm
 
-token = 'APP_USR-6533178376326833-080420-4f8813003c1bc1afd8759bdb66cee531-78104556' #reemplazar por tu token oauth que se genera al hacer el request a https://api.mercadolibre.com/oauth/token
 
-
-def category_results(category, offset):
+def category_results(token, category, offset):
     headers = {
         'Authorization': 'Bearer {}'.format(token)
     }
 
-    #MLU es el sitio de Uruguay
-    #ITEM_CONDITION = 2230581 -> Usados solamente
-    url = 'https://api.mercadolibre.com/sites/MLU/search?category={}&offset={}&ITEM_CONDITION=2230581'.format(category, offset)
+    # MLU es el sitio de Uruguay
+    # ITEM_CONDITION = 2230581 -> Usados solamente
+    url = 'https://api.mercadolibre.com/sites/MLU/search?category={}&offset={}&ITEM_CONDITION=2230581'.format(category,
+                                                                                                              offset)
     response = requests.get(url, headers=headers)
     return response.json()
 
@@ -67,9 +66,10 @@ def map_car(result):
 
 def main():
     page_size = 50
-    response = category_results('MLU1744', 0)  # autos y camionetas
+    token = 'APP_USR-6533178376326833-080420-4f8813003c1bc1afd8759bdb66cee531-78104556'  # reemplazar por tu token oauth que se genera al hacer el request a https://api.mercadolibre.com/oauth/token
+    response = category_results(token, 'MLU1744', 0)  # autos y camionetas
 
-    response['paging']['total'] = 10000 # -----> cantidad de autos que pienso descargar <<<<<<
+    response['paging']['total'] = 10000  # -----> cantidad de autos que pienso descargar <<<<<<
 
     total_cars = response['paging']['total']
 
@@ -90,8 +90,12 @@ def main():
     for k in cars[0].keys():
         df[k] = df.id.apply(lambda x: cars[x][k])
 
-    df.to_csv('cars.csv', index=False)
+    df.to_csv('used_cars.csv', index=False)
 
 
 if __name__ == "__main__":
     main()
+
+# TODO hacer un script que haga el curl y deje en disco el APP_USR-...
+# TODO este script lee ese archivo y manda
+# TODO convertir a dolares el renault megane: https://auto.mercadolibre.com.uy/MLU-480294333-renault-megane-turbo-diesel-_JM
