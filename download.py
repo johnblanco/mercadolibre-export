@@ -44,6 +44,7 @@ def find_attribute(attributes, att_name):
 def map_car(result):
     car = {}
     car['price'] = result['prices']['prices'][0]['amount']
+    car['currency'] = result['prices']['prices'][0]['currency_id']
 
     attributes = result['attributes']
 
@@ -69,7 +70,7 @@ def main(token):
     page_size = 50
     response = category_results(token, 'MLU1744', 0)  # autos y camionetas
 
-    response['paging']['total'] = 100  # -----> cantidad de autos que pienso descargar <<<<<<
+    response['paging']['total'] = 10000  # -----> cantidad de autos que pienso descargar <<<<<<
 
     total_cars = response['paging']['total']
 
