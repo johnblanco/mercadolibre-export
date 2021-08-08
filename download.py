@@ -53,7 +53,6 @@ def map_car(result):
     car['vehicle_year'] = att_value_name(attributes, 'VEHICLE_YEAR')
     car['brand'] = att_value_name(attributes, 'BRAND')
     car['model'] = att_value_name(attributes, 'MODEL')
-    car['engine'] = att_value_name(attributes, 'ENGINE')
     car['doors'] = att_value_name(attributes, 'DOORS')
     car['traction_control'] = att_value_name(attributes, 'TRACTION_CONTROL')
     car['power'] = att_number_value(attributes, 'POWER')
@@ -62,6 +61,11 @@ def map_car(result):
     car['transmission'] = att_value_name(attributes, 'TRANSMISSION')
     car['trim'] = att_value_name(attributes, 'TRIM')
     car['permalink'] = result['permalink']
+    # car['seller_id'] = result['seller']['id']
+    # car['seller_permalink'] = result['seller']['permalink']
+    # car['seller_registration_date'] = result['seller']['registration_date'][0:10]
+    # car['address_state_name'] = result['address']['state_name']
+    #car['thumbnail'] = result['thumbnail']
 
     return car
 
@@ -98,5 +102,3 @@ if __name__ == "__main__":
     secrets = json.loads(open('secrets.json', 'r').read())
     access_token = secrets['access_token']
     main(access_token)
-
-# TODO convertir a dolares el renault megane: https://auto.mercadolibre.com.uy/MLU-480294333-renault-megane-turbo-diesel-_JM
